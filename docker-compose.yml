@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  soccer_database:
+    image: mysql
+    container_name: soccer_database
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=soccer
+      - MYSQL_PASSWORD=123456
+      - MYSQL_DATABASE=soccer
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    network_mode: host
+  app:
+    build: .
+    container_name: soccer
+    environment:
+      - DATABASE_URL=mysql://root:123456@localhost:3306/soccer?schema=publi
+      - DATABASE_TEST_URL=mysql://root:123456@localhost:3306/test?schema=publi
+    volumes:
+      - .:/usr/app
+    network_mode: host

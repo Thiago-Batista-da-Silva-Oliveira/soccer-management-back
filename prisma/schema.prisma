@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String
+  name        String
+  teams       Team[]
+  createdAt   DateTime @default(now())
+}
+
+model Team {
+  id          String       @id @default(uuid())
+  name        String
+  owner       User         @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  players     Player[]
+  createdAt   DateTime     @default(now())
+  transactions Transaction[]
+}
+
+model Player {
+  id        String   @id @default(uuid())
+  name      String
+  position  String
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    String
+  accountId String?
+  createdAt DateTime @default(now())
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String     @id @default(uuid())
+  type        String     // "Contribution", "Expense"
+  description String? 
+  amount      Float
+  teamId      String
+  playerId    String?
+  reportId    String?
+  createdAt   DateTime    @default(now())
+  team        Team        @relation(fields: [teamId], references: [id])
+  player      Player?     @relation(fields: [playerId], references: [id])
+
+  @@index([teamId])
+}
