@@ -11,6 +11,7 @@ datasource db {
 model User {
   id          String   @id @default(uuid())
   email       String   @unique
+  imgUrl      String?
   name        String
   teams       Team[]
   loginMode   LoginMode?
@@ -45,6 +46,7 @@ model ForgotPassword {
 model Team {
   id          String       @id @default(uuid())
   name        String
+  imgUrl      String?
   owner       User         @relation(fields: [ownerId], references: [id])
   ownerId     String
   players     Player[]
