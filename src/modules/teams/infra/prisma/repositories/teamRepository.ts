@@ -3,7 +3,7 @@ import { ICreateTeamDTO } from '../../../dtos';
 import { ITeamRepository } from '../../../repositories';
 import { Team } from '../entities';
 
-export class UserRepository implements ITeamRepository {
+export class TeamRepository implements ITeamRepository {
   private repository: typeof prisma.team;
 
   constructor() {
