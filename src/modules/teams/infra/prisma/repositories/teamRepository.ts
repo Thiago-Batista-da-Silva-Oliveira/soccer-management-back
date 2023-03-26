@@ -31,4 +31,14 @@ export class TeamRepository implements ITeamRepository {
 
     return !!team;
   }
+
+  async list({ ownerId }: { ownerId: string }): Promise<Team[]> {
+    const teams = await this.repository.findMany({
+      where: {
+        ownerId,
+      },
+    });
+
+    return teams;
+  }
 }

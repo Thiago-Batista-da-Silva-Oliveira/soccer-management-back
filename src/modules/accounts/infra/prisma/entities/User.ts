@@ -1,4 +1,5 @@
 import uniqid from 'uniqid';
+import { Player } from '../../../../players/infra';
 import { ForgotPassword } from './ForgotPassword';
 import { LoginMode } from './LoginMode';
 export class User {
@@ -7,6 +8,7 @@ export class User {
   name: string;
   loginMode?: LoginMode;
   forgotPassword?: ForgotPassword;
+  iPlayIn?: Player[];
   createdAt?: Date;
 
   private constructor(userInfo: User) {

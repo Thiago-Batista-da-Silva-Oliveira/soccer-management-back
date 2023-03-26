@@ -1,9 +1,9 @@
-import { prisma } from '../../../../../config/prismaClient';
-import { IFindUserDTO } from '../../../dtos';
-import { ICreateLoginModeDTO } from '../../../dtos/ICreateLoginModeDTO';
-import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO';
-import { IUserRepository } from '../../../repositories';
-import { User } from '../entities/User';
+import { prisma } from "../../../../../config/prismaClient";
+import { IFindUserDTO } from "../../../dtos";
+import { ICreateLoginModeDTO } from "../../../dtos/ICreateLoginModeDTO";
+import { ICreateUserDTO } from "../../../dtos/ICreateUserDTO";
+import { IUserRepository } from "../../../repositories";
+import { User } from "../entities/User";
 
 export class UserRepository implements IUserRepository {
   private repository: typeof prisma.user;
@@ -13,7 +13,9 @@ export class UserRepository implements IUserRepository {
   }
 
   async exists(email: string): Promise<boolean> {
-    const userExists = await this.repository.findUnique({ where: { email: email } });
+    const userExists = await this.repository.findUnique({
+      where: { email: email },
+    });
     return !!userExists;
   }
 
@@ -22,21 +24,24 @@ export class UserRepository implements IUserRepository {
       where: data,
       include: {
         loginMode: true,
-      }
+      },
     });
   }
 
-  async create(user: ICreateUserDTO, loginMode: ICreateLoginModeDTO): Promise<User> {
+  async create(
+    user: ICreateUserDTO,
+    loginMode: ICreateLoginModeDTO
+  ): Promise<User> {
     return prisma.user.create({
       data: {
         email: user.email,
         name: user.name,
         id: user.id,
         loginMode: {
-         create: {
-          ...loginMode
-         }
-        }
+          create: {
+            ...loginMode,
+          },
+        },
       },
     });
   }
@@ -44,11 +49,15 @@ export class UserRepository implements IUserRepository {
   async findById(id: string): Promise<User> {
     return this.repository.findFirst({
       where: { id },
+      include: { loginMode: true, teams: true, iPlayIn: true },
     });
   }
 
   async findMany(data: any): Promise<User[]> {
-    return this.repository.findMany({ where: data });
+    return this.repository.findMany({
+      where: data,
+      include: { loginMode: true, teams: true, iPlayIn: true },
+    });
   }
 
   async update(id: { id: string }, data: any): Promise<User> {
