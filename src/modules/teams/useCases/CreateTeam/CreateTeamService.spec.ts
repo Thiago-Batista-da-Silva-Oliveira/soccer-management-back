@@ -8,7 +8,6 @@ describe("CreateTeamService", () => {
   let teamRepository: FakeTeamRepository;
 
   beforeEach(() => {
-    // Cria uma nova instância do repositório fake e do serviço
     teamRepository = new FakeTeamRepository();
     createTeamService = new CreateTeamService(teamRepository);
   });
@@ -58,8 +57,6 @@ describe("CreateTeamService", () => {
     });
     await teamRepository.create(existingTeam);
 
-    await expect(createTeamService.execute(teamData)).rejects.toThrow(
-      AppError
-    );
+    await expect(createTeamService.execute(teamData)).rejects.toBeInstanceOf(AppError)
   });
 });

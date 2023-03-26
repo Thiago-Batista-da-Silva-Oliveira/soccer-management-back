@@ -18,4 +18,8 @@ export class FakeTeamRepository implements ITeamRepository {
 
     return !!existingTeam;
   }
+
+  async list({ ownerId }: { ownerId: string }) {
+    return this.teams.filter((team) => team.ownerId === ownerId);
+  }
 }

@@ -26,7 +26,6 @@ export class CreateTeamService {
         imgUrl,
         ownerId
       })
-
       return await this.teamRepository.create(team)
     }
 }
