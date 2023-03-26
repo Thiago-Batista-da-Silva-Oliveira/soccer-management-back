@@ -9,15 +9,16 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  imgUrl      String?
-  name        String
-  teams       Team[]
-  loginMode   LoginMode?
+  id             String   @id @default(uuid())
+  email          String   @unique
+  imgUrl         String?
+  name           String
+  teams          Team[]
+  iPlayIn        Player[]
+  loginMode      LoginMode?
   refreshToken   RefreshToken[]
   forgotPassword ForgotPassword?
-  createdAt   DateTime @default(now())
+  createdAt      DateTime @default(now())
 }
 
 model LoginMode {
@@ -61,6 +62,7 @@ model Player {
   team      Team     @relation(fields: [teamId], references: [id])
   teamId    String
   accountId String?
+  user      User?     @relation(fields: [accountId], references: [id])
   createdAt DateTime @default(now())
   transactions Transaction[]
 }

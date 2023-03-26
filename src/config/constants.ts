@@ -1,6 +1,7 @@
 export const { NODE_ENV } = process.env;
 export const USER_REPOSITORY_KEY = 'UserRepository';
 export const TEAM_REPOSITORY_KEY = 'TeamRepository';
+export const PLAYER_REPOSITORY_KEY = 'PlayerRepository';
 export const REFRESHTOKEN_REPOSITORY_KEY = 'RefreshTokenRepository';
 export const FORGOT_PASSWORD_REPOSITORY_KEY = 'ForgotPasswordRepository';
 
