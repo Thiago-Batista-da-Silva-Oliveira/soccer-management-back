@@ -22,4 +22,10 @@ export class FakeTeamRepository implements ITeamRepository {
   async list({ ownerId }: { ownerId: string }) {
     return this.teams.filter((team) => team.ownerId === ownerId);
   }
+
+  async findById(id: string): Promise<Team | undefined> {
+    const team = this.teams.find((team) => team.id === id);
+
+    return team;
+  }
 }

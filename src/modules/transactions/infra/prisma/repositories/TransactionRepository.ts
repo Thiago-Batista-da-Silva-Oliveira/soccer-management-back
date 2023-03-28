@@ -22,4 +22,32 @@ export class TransactionRepository implements ITransactionRepository {
       },
     });
   }
+
+  async list({
+    teamId,
+    startDate,
+    endDate,
+  }: {
+    teamId: string;
+    startDate?: Date;
+    endDate?: Date;
+  }): Promise<Transaction[]> {
+    if (startDate && endDate) {
+      return await this.repository.findMany({
+        where: {
+          teamId,
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+      });
+    } else {
+      return await this.repository.findMany({
+        where: {
+          teamId,
+        },
+      });
+    }
+  }
 }

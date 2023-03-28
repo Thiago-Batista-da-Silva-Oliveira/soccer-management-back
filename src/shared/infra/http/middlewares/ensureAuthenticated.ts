@@ -7,7 +7,7 @@ interface IPayload {
 }
 
 export function ensureAuthenticated(
-  req: Request,
+  req: any,
   res: Response,
   next: NextFunction,
 ) {
@@ -23,7 +23,7 @@ export function ensureAuthenticated(
 
   try {
     const verifyToken = verify(token,'6468468468') as IPayload;
-    req.userId = verifyToken.sub;
+    req.user_id = verifyToken.sub;
     return next();
   } catch (err) {
     return res.status(401).json({ errorCode: 'token expired' });
