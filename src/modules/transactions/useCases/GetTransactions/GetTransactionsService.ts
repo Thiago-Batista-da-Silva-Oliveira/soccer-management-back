@@ -14,6 +14,13 @@ interface IRequest {
   endDate?: string;
 }
 
+interface IOutput {
+  transactions: Transaction[];
+  totalIncome: number;
+  totalExpense: number;
+  total: number;
+}
+
 @injectable()
 export class GetTransactionsService {
   constructor(
@@ -26,7 +33,7 @@ export class GetTransactionsService {
     teamId,
     startDate,
     endDate,
-  }: IRequest): Promise<Transaction[]> {
+  }: IRequest): Promise<IOutput> {
     const checkIfTeamExists = await this.teamRepository.findById(teamId);
     if (!checkIfTeamExists) {
       throw new AppError("Time não encontrado", 404);
@@ -36,6 +43,25 @@ export class GetTransactionsService {
       startDate: new Date(startDate),
       endDate: new Date(endDate),
     });
-    return transactions;
+
+    const totalIncome = transactions.reduce((acc, transaction) => {
+      if (transaction.type === "income") {
+        return acc + transaction.amount;
+      }
+      return acc;
+    }, 0)
+    const totalExpense = transactions.reduce((acc, transaction) => {
+      if (transaction.type === "expense") {
+        return acc + transaction.amount;
+      }
+      return acc;
+    },0)
+    const total = totalIncome - totalExpense;
+    return {
+      transactions,
+      totalIncome,
+      totalExpense,
+      total,
+    };
   }
 }
