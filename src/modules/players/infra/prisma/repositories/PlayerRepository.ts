@@ -1,5 +1,5 @@
 import { prisma } from '../../../../../config/prismaClient';
-import { ICreatePlayerDTO } from '../../../dtos';
+import { ICreatePlayerDTO, IUpdatePlayerDTO } from '../../../dtos';
 import { IPlayerRepository } from '../../../repositories';
 import { Player } from '../entities';
 
@@ -20,5 +20,30 @@ export class PlayerRepository implements IPlayerRepository {
             createdAt: data.createdAt
         }
      })
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete({
+        where: {
+            id
+        }
+    })
+  }
+
+  async findById(id: string): Promise<Player> {
+    return await this.repository.findUnique({
+        where: {
+            id
+        }
+    })
+  }
+
+  async update(id: string, data: IUpdatePlayerDTO): Promise<Player> {
+    return await this.repository.update({
+        where: {
+            id,
+        },
+        data,
+    })
   }
 }

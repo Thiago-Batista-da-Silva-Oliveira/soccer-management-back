@@ -2,7 +2,7 @@ import { AppError } from "../../../shared/errors/AppError";
 
 export function validatePlayer(req, res, next) {
     const { name, position, teamId } = req.body;
-    if (!position || !name || !name || !teamId) {
+    if (!position || !name || !teamId) {
       throw new AppError("Preencha todos os campos obrigatórios", 400)
     }
 
