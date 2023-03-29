@@ -59,7 +59,7 @@ model Player {
   id        String   @id @default(uuid())
   name      String
   position  String
-  team      Team     @relation(fields: [teamId], references: [id])
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   teamId    String
   accountId String?
   user      User?     @relation(fields: [accountId], references: [id])
@@ -75,8 +75,8 @@ model Transaction {
   teamId      String
   playerId    String?
   createdAt   DateTime    @default(now())
-  team        Team        @relation(fields: [teamId], references: [id])
-  player      Player?     @relation(fields: [playerId], references: [id])
+  team        Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player      Player?     @relation(fields: [playerId], references: [id], onDelete: Cascade)
 
   @@index([teamId])
 }

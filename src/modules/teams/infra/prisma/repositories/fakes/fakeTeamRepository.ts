@@ -28,4 +28,10 @@ export class FakeTeamRepository implements ITeamRepository {
 
     return team;
   }
+
+  async delete(id: string): Promise<void> {
+    const teamIndex = this.teams.findIndex((team) => team.id === id);
+
+    this.teams.splice(teamIndex, 1);
+  }
 }

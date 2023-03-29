@@ -51,4 +51,12 @@ export class TeamRepository implements ITeamRepository {
 
     return team;
   }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

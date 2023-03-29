@@ -6,4 +6,5 @@ export interface ITeamRepository {
   checkIfAlreadyExists(name: string, ownerId: string): Promise<boolean>;
   list({ownerId}: {ownerId: string}): Promise<Team[]>;
   findById(id: string): Promise<Team | undefined>;
+  delete(id: string): Promise<void>;
 }
