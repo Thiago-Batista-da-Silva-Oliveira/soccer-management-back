@@ -16,4 +16,4 @@ teamsRoutes.patch("/update/:id", updateTeamController.handle);
 
 teamsRoutes.get("/list", getTeamsController.handle);
 
-teamsRoutes.get("/delete/:id", deleteTeamController.handle);
+teamsRoutes.delete("/delete/:id", deleteTeamController.handle);
