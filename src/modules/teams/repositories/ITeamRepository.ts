@@ -7,4 +7,5 @@ export interface ITeamRepository {
   list({ownerId}: {ownerId: string}): Promise<Team[]>;
   findById(id: string): Promise<Team | undefined>;
   delete(id: string): Promise<void>;
+  update(team: Partial<Team>): Promise<Team>;
 }

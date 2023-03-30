@@ -21,6 +21,11 @@ export class GetTeamsService {
 
     const allTeams = [...teamsThatIPlayIn, ...teams];
 
-    return allTeams;
+    return allTeams.map((team) => {
+      return {
+        ...team,
+        isMyTeam: team.ownerId === ownerId
+      }
+    })
   }
 }

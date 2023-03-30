@@ -37,6 +37,7 @@ export class TeamRepository implements ITeamRepository {
       where: {
         ownerId,
       },
+      include: {players: true}
     });
 
     return teams;
@@ -56,6 +57,17 @@ export class TeamRepository implements ITeamRepository {
     await this.repository.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async update(team: Partial<Team>): Promise<Team> {
+    return this.repository.update({
+      where: {
+        id: team.id,
+      },
+      data: {
+        name: team.name,
       },
     });
   }

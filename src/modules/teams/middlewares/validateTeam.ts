@@ -1,7 +1,7 @@
 import { AppError } from "../../../shared/errors/AppError";
 
 export function validateTeam(req, res, next) {
-    const { ownerId, imgUrl, name } = req.body;
+    const { ownerId, name } = req.body;
     if (!ownerId || !name) {
       throw new AppError("Preencha todos os campos obrigatórios", 400)
     }

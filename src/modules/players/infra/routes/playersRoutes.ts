@@ -8,8 +8,8 @@ const addPlayerController = new AddPlayerController();
 const updatePlayerController = new UpdatePlayerController();
 
 playersRoutes.post("/create", validatePlayer, addPlayerController.handle);
-playersRoutes.put(
-  "/update",
+playersRoutes.patch(
+  "/update/:id",
   validatePlayerUpdate,
   updatePlayerController.handle
 );
