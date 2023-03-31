@@ -41,12 +41,20 @@ export class TransactionRepository implements ITransactionRepository {
             lte: endDate,
           },
         },
+        include: {player: true},
+        orderBy: {
+          createdAt: "desc",
+        }
       });
     } else {
       return await this.repository.findMany({
         where: {
           teamId,
         },
+        include: {player: true},
+        orderBy: {
+          createdAt: "desc",
+        }
       });
     }
   }

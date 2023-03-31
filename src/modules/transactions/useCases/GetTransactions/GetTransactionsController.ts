@@ -14,6 +14,6 @@ export class GetTransactionsController {
             endDate: endDate as string,
         });
 
-        return response.json(transactions);
+        return response.status(200).json({message: 'success', payload: transactions});
     }
 }

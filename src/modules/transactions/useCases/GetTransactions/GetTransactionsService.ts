@@ -6,6 +6,7 @@ import {
 import { AppError } from "../../../../shared/errors/AppError";
 import { ITeamRepository } from "../../../teams";
 import { Transaction } from "../../infra";
+import { format } from 'date-fns';
 import { ITransactionRepository } from "../../repositories";
 
 interface IRequest {
@@ -14,8 +15,13 @@ interface IRequest {
   endDate?: string;
 }
 
+interface ITransactions  extends Transaction{
+   name: string;
+   date: string;
+}
+
 interface IOutput {
-  transactions: Transaction[];
+  transactions: ITransactions[];
   totalIncome: number;
   totalExpense: number;
   total: number;
@@ -38,14 +44,30 @@ export class GetTransactionsService {
     if (!checkIfTeamExists) {
       throw new AppError("Time não encontrado", 404);
     }
+
+    const startDateFiltered = startDate
+    ? format(new Date(startDate), 'MM/dd/yyyy')
+    : null;
+  const finalDateFiltered = endDate
+    ? format(new Date(endDate), 'MM/dd/yyyy 23:59:59')
+    : null;
     const transactions = await this.transactionRepository.list({
       teamId,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
+      startDate: new Date(startDateFiltered),
+      endDate: new Date(finalDateFiltered),
     });
 
+    const filteredTransaction = transactions.map((data) => {
+      return {
+        ...data,
+        date: format(new Date(data.createdAt), 'dd/MM/yyyy HH:mm:ss'),
+        name: data?.player?.name || "Time",
+        type: data.type === "contribution" ? "Contribuição" : "Despesa",
+      }
+    })
+
     const totalIncome = transactions.reduce((acc, transaction) => {
-      if (transaction.type === "income") {
+      if (transaction.type === "contribution") {
         return acc + transaction.amount;
       }
       return acc;
@@ -58,7 +80,7 @@ export class GetTransactionsService {
     },0)
     const total = totalIncome - totalExpense;
     return {
-      transactions,
+      transactions: filteredTransaction,
       totalIncome,
       totalExpense,
       total,
