@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16"
+  },
   "scripts": {
     "test": "jest",
+    "build": "tsup src",
+    "start": "node dist/shared/infra/http/server.js",
     "dev": "ts-node-dev src/shared/infra/http/server.ts"
   },
   "keywords": [],
@@ -40,6 +45,7 @@
     "node-cache": "^5.1.2",
     "nodemailer": "^6.9.1",
     "reflect-metadata": "^0.1.13",
+    "tsup": "^6.7.0",
     "tsyringe": "^4.7.0",
     "uniqid": "^5.4.0",
     "winston": "^3.8.2",
