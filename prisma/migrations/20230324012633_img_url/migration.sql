@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE `Team` ADD COLUMN `imgUrl` VARCHAR(191) NULL;
-
--- AlterTable
-ALTER TABLE `User` ADD COLUMN `imgUrl` VARCHAR(191) NULL;
